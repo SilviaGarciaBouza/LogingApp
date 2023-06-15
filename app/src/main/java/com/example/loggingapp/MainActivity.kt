@@ -10,7 +10,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.loggingapp.UI.LogingSacreem
+import com.example.loggingapp.UI.LogingScreem
+import com.example.loggingapp.UI.LogingScreem
+import com.example.loggingapp.UI.LogingViewModel
 import com.example.loggingapp.ui.theme.LoggingAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +25,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    LogingSacreem()                }
+                    LogingScreem(LogingViewModel())                }
             }
         }
     }
@@ -34,6 +36,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     LoggingAppTheme {
-        LogingSacreem()
+     //   LogingScreem(LogingViewModel())
     }
 }

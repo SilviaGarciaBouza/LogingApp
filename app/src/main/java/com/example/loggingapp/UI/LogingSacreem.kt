@@ -1,8 +1,10 @@
 package com.example.loggingapp.UI
 
+import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.R
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
@@ -31,81 +33,107 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.livedata.observeAsState
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Composable
-fun LogingSacreem() {
-    Column(
-        Modifier
-            .fillMaxSize()
-            .padding(22.dp)) {
-        UpLogingScreem()
-        Spacer(modifier = Modifier.size(50.dp))
+fun LogingScreem(viewModel: LogingViewModel) {
 
-        BodyLogingScreem()
-        Spacer(modifier = Modifier.size(20.dp))
+    val mySelectedButton: Boolean by viewModel.selectedButton.observeAsState(initial = true)
 
-        BottomLogingScreem()
-        Spacer(modifier = Modifier.size(10.dp))
+    if(mySelectedButton) {
+
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(22.dp)
+        ) {
+            UpLogingScreem()
+            Spacer(modifier = Modifier.size(50.dp))
+
+            BodyLogingScreem(viewModel)
+            Spacer(modifier = Modifier.size(20.dp))
+
+            BottomLogingScreem()
+            Spacer(modifier = Modifier.size(10.dp))
+        }
+    }else{
+        Column (modifier = Modifier, verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
+            CircularProgressIndicator(color = Color.Red, strokeWidth = 5.dp)
+        }
     }
 }
-
-
-
 
 @Composable
 fun UpLogingScreem() {
+    var activity = LocalContext.current as Activity
     Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.End) {
-        Icon(imageVector = Icons.Rounded.Close, contentDescription = "Icon", tint = Color.Black)
+        Icon(imageVector = Icons.Rounded.Close, contentDescription = "Icon", tint = Color.Black, modifier = Modifier.clickable { activity.finish() })
     }
 }
 
 @Composable
-fun BodyLogingScreem(){
-    var myTextEmail by rememberSaveable { mutableStateOf("") }
-    var myTextPassport by rememberSaveable { mutableStateOf("") }
+fun BodyLogingScreem(viewModel: LogingViewModel){
+    val myTextEmail: String by viewModel.email.observeAsState(initial = "")
+    val myTextPassport: String by viewModel.password.observeAsState(initial = "")
+    val myIsEnable: Boolean by viewModel.enabledButton.observeAsState(initial = false)
 
 
-    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+
+        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
 
 
-        Image(
-            painter = painterResource(id = com.example.loggingapp.R.drawable.perro),
-            contentDescription = "dog image",
-            modifier = Modifier
-                .size(200.dp)
-                .clip(RoundedCornerShape(45f))
-        )
+            Image(
+                painter = painterResource(id = com.example.loggingapp.R.drawable.perro),
+                contentDescription = "dog image",
+                modifier = Modifier
+                    .size(200.dp)
+                    .clip(RoundedCornerShape(45f))
+            )
 
-        Spacer(modifier = Modifier.size(26.dp))
+            Spacer(modifier = Modifier.size(26.dp))
 
-        OutlinedTextField(value = myTextEmail, onValueChange = { myTextEmail = it }, label = { Text(
-            text = "Email"
-        )})
+            OutlinedTextField(
+                value = myTextEmail,
+                onValueChange = { viewModel.changeEmailPassword(it, myTextPassport) },
+                label = {
+                    Text(
+                        text = "Email"
+                    )
+                })
 
-        Spacer(modifier = Modifier.size(16.dp))
+            Spacer(modifier = Modifier.size(16.dp))
 
-        OutlinedTextField(value = myTextPassport, onValueChange = { myTextPassport = it }, label = { Text(
-            text = "Password"
-        )})
+            OutlinedTextField(
+                value = myTextPassport,
+                onValueChange = { viewModel.changeEmailPassword(myTextEmail, it) },
+                label = {
+                    Text(
+                        text = "Password"
+                    )
+                })
 
-        Spacer(modifier = Modifier.size(8.dp))
+            Spacer(modifier = Modifier.size(8.dp))
 
 
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 40.dp), horizontalAlignment = Alignment.End) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 40.dp), horizontalAlignment = Alignment.End
+            ) {
 
-            Text(text = "Forgot password?", color = Color.Gray, fontSize = 10.sp)
+                Text(text = "Forgot password?", color = Color.Gray, fontSize = 10.sp)
+            }
+
+            Spacer(modifier = Modifier.size(26.dp))
+
+            Button(onClick = { viewModel.logSuccessful() }, enabled = myIsEnable) {
+                Text(text = "Log in", modifier = Modifier.padding(horizontal = 32.dp))
+            }
         }
 
-        Spacer(modifier = Modifier.size(26.dp))
-
-        Button(onClick = { /*TODO*/ }, enabled = false) {
-            Text(text = "Log in", modifier = Modifier.padding(horizontal = 32.dp))
-        }
-    }
 }
 
 @Composable
