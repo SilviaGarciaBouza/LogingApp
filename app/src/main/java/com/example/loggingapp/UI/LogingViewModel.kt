@@ -7,12 +7,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.loggingapp.domain.UseCaseLoging
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LogingViewModel: ViewModel() {
+//Preparar para ser inyectado: @HiltViewModel
+//Preparar para recibir, q le inyecten @Inject constructor. Para recivir las otras clases tienen q estar preparadas tb
+@HiltViewModel
+class LogingViewModel @Inject constructor(private val useCaseLoging: UseCaseLoging): ViewModel() {
 
     //Se mete el useCaseLoging q ya es la acción(en este caso saber si la respuesta es true o false) ya no hace falta meterle  . y alguna fun
-   val useCaseLoging = UseCaseLoging()
+   //val useCaseLoging = UseCaseLoging()
 
     private val _email = MutableLiveData<String>()
     val email: LiveData<String> = _email

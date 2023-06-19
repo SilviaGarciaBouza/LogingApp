@@ -3,6 +3,7 @@ package com.example.loggingapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -14,8 +15,13 @@ import com.example.loggingapp.UI.LogingScreem
 import com.example.loggingapp.UI.LogingScreem
 import com.example.loggingapp.UI.LogingViewModel
 import com.example.loggingapp.ui.theme.LoggingAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+//Inyección de dependencias con Dager Hilt:@AndroidEntryPoint
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    //Le inyecyo el viewModel
+    private val logingViewModel: LogingViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -25,7 +31,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    LogingScreem(LogingViewModel())                }
+                    //Le pasas el viewModel sin tener q crear la instancia
+                    LogingScreem(logingViewModel)                }
             }
         }
     }

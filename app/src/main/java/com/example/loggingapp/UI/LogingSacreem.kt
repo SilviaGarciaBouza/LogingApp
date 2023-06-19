@@ -80,9 +80,7 @@ fun BodyLogingScreem(viewModel: LogingViewModel){
     val myTextPassport: String by viewModel.password.observeAsState(initial = "")
     val myIsEnable: Boolean by viewModel.enabledButton.observeAsState(initial = false)
 
-
-
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
 
 
             Image(
