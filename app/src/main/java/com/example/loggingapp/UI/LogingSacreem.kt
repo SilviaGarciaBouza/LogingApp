@@ -33,6 +33,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.livedata.observeAsState
@@ -80,15 +82,21 @@ fun BodyLogingScreem(viewModel: LogingViewModel){
     val myTextPassport: String by viewModel.password.observeAsState(initial = "")
     val myIsEnable: Boolean by viewModel.enabledButton.observeAsState(initial = false)
 
+    //Animación para la imagen
+    var imageStatus by rememberSaveable{ mutableStateOf(true) }
+    val imageSize by animateDpAsState(targetValue = if (imageStatus){200.dp} else{150.dp}, animationSpec = tween(1000))
+
     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+
 
 
             Image(
                 painter = painterResource(id = com.example.loggingapp.R.drawable.perro),
                 contentDescription = "dog image",
-                modifier = Modifier
-                    .size(200.dp)
+                modifier = Modifier.clickable{imageStatus = !imageStatus}
+                    .size(imageSize)
                     .clip(RoundedCornerShape(45f))
+
             )
 
             Spacer(modifier = Modifier.size(26.dp))
