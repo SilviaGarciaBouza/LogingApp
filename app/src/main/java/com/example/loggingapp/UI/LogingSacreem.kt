@@ -38,6 +38,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.testTag
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Composable
@@ -105,10 +106,11 @@ fun BodyLogingScreem(viewModel: LogingViewModel){
                 value = myTextEmail,
                 onValueChange = { viewModel.changeEmailPassword(it, myTextPassport) },
                 label = {
-                    Text(
-                        text = "Email"
-                    )
-                })
+                    Text(text = "Email")
+                },
+                modifier = Modifier.testTag("email")
+
+            )
 
             Spacer(modifier = Modifier.size(16.dp))
 
@@ -119,7 +121,8 @@ fun BodyLogingScreem(viewModel: LogingViewModel){
                     Text(
                         text = "Password"
                     )
-                })
+                },
+                modifier = Modifier.testTag("password"))
 
             Spacer(modifier = Modifier.size(8.dp))
 
@@ -152,7 +155,7 @@ fun BottomLogingScreem() {
                 .padding(12.dp), color = Color.LightGray
         )
         Spacer(modifier = Modifier.size(16.dp))
-        Text(text = "Continue as NAME NAME", color = Color.Gray, fontSize = 14.sp)
+        Text(text = "Continue as NAME NAME", color = Color.Gray, fontSize = 14.sp, modifier = Modifier.testTag("component1"))
         Spacer(modifier = Modifier.size(16.dp))
 
         Divider(
