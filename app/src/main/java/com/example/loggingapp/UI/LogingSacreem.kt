@@ -72,7 +72,7 @@ fun LogingScreem(viewModel: LogingViewModel) {
 @Composable
 fun UpLogingScreem() {
     var activity = LocalContext.current as Activity
-    Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.End) {
+    Column(modifier = Modifier.testTag("component1").fillMaxWidth(), horizontalAlignment = Alignment.End) {
         Icon(imageVector = Icons.Rounded.Close, contentDescription = "Icon", tint = Color.Black, modifier = Modifier.clickable { activity.finish() })
     }
 }
@@ -138,7 +138,7 @@ fun BodyLogingScreem(viewModel: LogingViewModel){
 
             Spacer(modifier = Modifier.size(26.dp))
 
-            Button(onClick = { viewModel.logSuccessful() }, enabled = myIsEnable) {
+            Button(onClick = { viewModel.logSuccessful() }, enabled = myIsEnable, modifier = Modifier.testTag("component1")) {
                 Text(text = "Log in", modifier = Modifier.padding(horizontal = 32.dp))
             }
         }
@@ -150,20 +150,22 @@ fun BottomLogingScreem() {
     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
 
         Divider(
-            Modifier
+            modifier = Modifier.testTag("component1")
                 .fillMaxWidth()
                 .padding(12.dp), color = Color.LightGray
-        )
-        Spacer(modifier = Modifier.size(16.dp))
-        Text(text = "Continue as NAME NAME", color = Color.Gray, fontSize = 14.sp, modifier = Modifier.testTag("component1"))
-        Spacer(modifier = Modifier.size(16.dp))
 
-        Divider(
-            Modifier
+        )
+        Spacer(modifier = Modifier.size(16.dp).testTag("component2"))
+        Text(text = "Continue as NAME NAME", color = Color.Gray, fontSize = 14.sp, modifier = Modifier.testTag("component3"))
+        Spacer(modifier = Modifier.size(16.dp).testTag("component4"))
+
+        Divider(modifier = Modifier.testTag("component5")
                 .fillMaxWidth()
                 .padding(12.dp), color = Color.LightGray
+
+
         )
-        Row() {
+        Row(modifier = Modifier.testTag("component6")) {
             Text(text ="Don't have a account?", color = Color.Gray, fontSize = 14.sp)
             Spacer(modifier = Modifier.size(8.dp))
             Text(text = "Sign Up", color = Color.Blue, fontSize = 14.sp, fontWeight = FontWeight.Bold)
